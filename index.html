@@ -1,0 +1,90 @@
+<!--
+See also:
+http://www.anupshinde.com/posts/form-builder-part-2/
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
+    <link href="bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<!--
+    <div id="input-form" title="Create new input field">
+
+      <form>
+        <fieldset>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" value="Organ administracyjny" class="text ui-widget-content ui-corner-all">
+          <label for="codename">Codename</label>
+          <input type="text" name="codename" id="codename" value="organ_mianownik" class="text ui-widget-content ui-corner-all">
+          <label for="default">Default value</label>
+          <input type="text" name="default" id="default" value="Pierwszy Prezes Sądu Najwyższego" class="text ui-widget-content ui-corner-all">
+          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+      </fieldset>
+  </form>
+</div>
+-->
+<div class="container">
+<button class="btn btn-info" id="loaddefault">Load default</button>
+    <form>
+        <div id="sortable">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter name eg. Prezes Rady Ministrów">
+        </div>
+        <div class="form-group">
+            <label for="street">Street</label>
+            <input type="text" class="form-control" id="street" placeholder="ul. Wiejska 2/4/6">
+        </div>
+        <div class="checkbox">
+            <label>
+              <input type="checkbox"> Check me out
+          </label>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputFile">Longer description</label>
+        <textarea class="form-control" id="exampleInputFile" name="exampleInputFile"></textarea>
+        <p class="help-block">Example block-level help text here.</p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="exampleBody">Content</label>
+    <textarea class="form-control" id="exampleBody"></textarea>
+    <p class="help-block">Example block-level help text here.</p>
+    <button id="create-input">Create new input</button>
+</div>
+<button  id="submitbtn" class="btn btn-default">Submit</button>
+</form>
+</div>
+<h2>Result</h2>
+<div class="well" id="result"></div>
+<script src="underscore-min.js"></script>
+<script src="jquery-1.11.3.min.js"></script>
+<script src="jquery-ui-1.11.4/jquery-ui.js"></script>
+<script src="bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+<script>
+$("#loaddefault").click(function() {
+    $.get("content.html", {} , 
+        function(data) {
+            $('#exampleBody').html(data);
+        });    
+    return false;
+});
+$("#submitbtn").click(function(event) {
+            var context = [];
+            $('input, textarea').each(function(){
+                context[this.id]=this.value;
+            });
+            console.log(context);
+            $('#result').html(_.template($('#exampleBody').val(), context))
+            event.preventDefault();
+});
+</script>
+</body>
+</html>
